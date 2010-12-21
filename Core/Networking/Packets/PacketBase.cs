@@ -26,9 +26,22 @@ namespace Core.Networking.Packets
 
         #region Methods
 
-        public abstract void Read(NetworkStreamMC stream);
+        public virtual void Read(NetworkStreamMC stream)
+        {
+            foreach (var p in GetType().GetProperties().Where(p => typeof (PacketBase).GetProperty(p.Name) == null))
+            {
+                p.SetValue(this, stream.GetType().InvokeMember(p.PropertyType.Name, BindingFlags.InvokeMethod, null, stream, null), null);
+            }
+        }
 
-        protected abstract void Write(PacketWriter writer);
+        protected virtual void Write(PacketWriter writer)
+        {
+            foreach (var p in GetType().GetProperties().Where(p => typeof(PacketBase).GetProperty(p.Name) == null))
+            {
+                Console.WriteLine(p.Name);
+                writer.GetType().InvokeMember("Add", BindingFlags.InvokeMethod, null, writer, new[] { p.GetValue(this, null) });
+            }
+        }
 
         public void Send(NetworkStreamMC stream)
         {
@@ -75,16 +88,13 @@ namespace Core.Networking.Packets
 
                 return ClientPackets[id]();
             }
-            else
-            {
-                if (!ServerPackets.ContainsKey(id))
-                {
-                    throw new NotImplementedException(string.Format("Invalid server packet 0x{0:X2}", (byte)id));
-                }
 
-                return ServerPackets[id]();
+            if (!ServerPackets.ContainsKey(id))
+            {
+                throw new NotImplementedException(string.Format("Invalid server packet 0x{0:X2}", (byte)id));
             }
-            
+
+            return ServerPackets[id]();
         }
 
         #endregion

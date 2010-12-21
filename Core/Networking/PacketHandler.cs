@@ -159,9 +159,11 @@ namespace Core.Networking
 
             while (true)
             {
-                byte id = _stream.ReadByte();
+                byte id = _stream.Byte();
                 numPackets++;
 
+                // If we're on client mode, we need to get the server-version of the packet,
+                // because that's the packet sent by the server
                 var packet = PacketBase.TagFromId((Packet) id, Mode == HandlerMode.Client ? HandlerMode.Server : HandlerMode.Client);
 
                 packet.Read(_stream);

@@ -15,7 +15,6 @@ namespace Core.Networking
         #endregion
 
         #region Public methods
-
         public void Add(byte arg)
         {
             _list.Add(arg);
@@ -57,6 +56,18 @@ namespace Core.Networking
             _list.AddRange(Encoding.UTF8.GetBytes(arg));
         }
 
+        public void Add(byte[] arg)
+        {
+            _list.AddRange(arg);
+        }
+
+        public void Add(short[] args)
+        {
+            foreach(var a in args)
+            {
+                Add(a);
+            }
+        }
         #endregion
 
         #region Helpers

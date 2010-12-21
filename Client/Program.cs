@@ -42,7 +42,7 @@ namespace Client
 
             Console.WriteLine("Logged in");
 
-            _handler.UnsubscribedPacket += (packet) => Console.WriteLine("Unhandled packet " + packet.Id);
+            _handler.UnsubscribedPacket += p => { };
             _handler.Subscribe(Packet.Disconnect, p => Console.Write("You were kicked: " + ((Disconnect)p).Reason));
 
             _handler.Subscribe(Packet.ChatMessage, p => Console.WriteLine(((ChatMessage) p).Message));
