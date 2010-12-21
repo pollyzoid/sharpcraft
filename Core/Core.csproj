@@ -40,7 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Networking\Packets\Packets.cs" />
+    <Compile Include="Networking\PacketWriter.cs" />
+    <Compile Include="Networking\PacketHandler.cs" />
+    <Compile Include="Networking\Packets\PacketBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\mclib\MCLib.csproj">
+      <Project>{E206F853-FA66-479A-A1BA-9B98D58249A3}</Project>
+      <Name>MCLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
