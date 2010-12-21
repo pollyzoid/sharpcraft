@@ -38,7 +38,6 @@ namespace Core.Networking.Packets
         {
             foreach (var p in GetType().GetProperties().Where(p => typeof(PacketBase).GetProperty(p.Name) == null))
             {
-                Console.WriteLine(p.Name);
                 writer.GetType().InvokeMember("Add", BindingFlags.InvokeMethod, null, writer, new[] { p.GetValue(this, null) });
             }
         }
