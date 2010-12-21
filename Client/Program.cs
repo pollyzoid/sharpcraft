@@ -13,28 +13,11 @@ namespace Client
 
         private readonly PacketHandler _handler;
 
-        private readonly string _username;
-        private readonly string _password;
+        private string _username;
+        private string _password;
 
         public Program()
         {
-            Console.Write("Username: ");
-            _username = Console.ReadLine();
-
-            Console.Write("Password: ");
-
-            var passwd = new StringBuilder();
-            ConsoleKeyInfo cki;
-            while ((cki = Console.ReadKey(true)).Key != ConsoleKey.Enter)
-            {
-                Console.Write("*");
-                passwd.Append(cki.KeyChar);
-            }
-
-            Console.WriteLine();
-
-            _password = passwd.ToString();
-
             _handler = new PacketHandler(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 25565), HandlerMode.Client);
 
             Handshake();
@@ -54,10 +37,38 @@ namespace Client
             }
         }
 
+        void AskUserPass()
+        {
+            Console.Write("Username: ");
+            _username = Console.ReadLine();
+
+            Console.Write("Password: ");
+            var passwd = new StringBuilder();
+            ConsoleKeyInfo cki;
+            while ((cki = Console.ReadKey(true)).Key != ConsoleKey.Enter)
+            {
+                Console.Write("*");
+                passwd.Append(cki.KeyChar);
+            }
+
+            Console.WriteLine();
+
+            _password = passwd.ToString();
+        }
+
         void Handshake()
         {
             var wc = new WebClient();
-            var getVerResp = wc.DownloadString("http://www.minecraft.net/game/getversion.jsp?user=" + _username + "&password=" + _password + "&version=" + Version).Split(':');
+            string resp;
+
+            AskUserPass();
+            while((resp = wc.DownloadString("http://www.minecraft.net/game/getversion.jsp?user=" + _username + "&password=" + _password + "&version=" + Version)) == "Bad login")
+            {
+                Console.WriteLine("Invalid username or password, try again.");
+                AskUserPass();
+            }
+
+            var getVerResp = resp.Split(':');
 
             _handler.SendPacket(new Handshake {Username = _username});
             Console.Write("Handshaking... ");
