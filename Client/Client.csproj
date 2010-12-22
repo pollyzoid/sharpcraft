@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,10 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{912BA1EC-1350-4C78-BF9D-59C76CAAB61A}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\mclib\MCLib.csproj">
       <Project>{E206F853-FA66-479A-A1BA-9B98D58249A3}</Project>
       <Name>MCLib</Name>

@@ -31,7 +31,7 @@ namespace Client
             _handler.Subscribe(Packet.ChatMessage, p => Console.WriteLine(((ChatMessage) p).Message));
             _handler.EventMode = true;
 
-            while (true)
+            while (_handler.IsActive)
             {
                 _handler.SendPacket(new ChatMessage {Message = Console.ReadLine()});
             }
