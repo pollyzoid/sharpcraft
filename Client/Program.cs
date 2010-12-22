@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Text;
-using Core.Networking;
-using Core.Networking.Packets;
 using MCLib.Enums;
+using MCLib.Networking;
+using MCLib.Networking.Packets;
 
 namespace Client
 {
